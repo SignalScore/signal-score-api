@@ -1,133 +1,183 @@
-join our community to build with us
-https://t.me/+sq2jJQgysWAxMjY0
-Signal-score-api is designed to help crypto traders, investors, and analysts share high-quality market ideas in a transparent and community-driven environment.
-The backend handles authentication, content management, rewards logic, premium access, and Stellar blockchain interactions.
+# Signal Score API
 
-✨ Key Features
+A backend API project integrating Next.js API routes with NestJS scaffolding and Prisma ORM for data management.
 
-User Authentication & Authorization
+## Project Overview
 
-Secure user registration and login
+Signal Score API is a backend service handling user authentication, profile management, and idea sharing, designed and built on the Stellar wave. It operates as a hybrid architecture containing both Next.js App Router API routes (`route.ts`) and a NestJS application structure. Data persistence is managed via PostgreSQL and the Prisma ORM.
 
-Role-based access (regular users, premium users, admins)
+The system is intended to serve as the backend for an application where users can register, manage their profiles, create crypto/trading ideas, vote on ideas, and leave comments.
 
-Crypto Idea Management
+## Table of Contents
 
-Create, edit, delete, and fetch trading ideas
+- [Key Features](#key-features)
+- [Built With / Technology Stack](#built-with--technology-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Project](#running-the-project)
+- [Testing](#testing)
+- [API](#api)
+- [Database / Data Storage](#database--data-storage)
+- [Security](#security)
 
-Support for technical analysis, market insights, and research posts
+## Key Features
 
-Community-driven upvotes and discussions
+- **User Authentication:** Registration, login, logout, password reset via JWT and Passport.
+- **Content Management:** Create, view, and interact with ideas and comments.
+- **Voting System:** Endpoints to support voting on published ideas.
+- **Relational Data Persistence:** Structured schemas for users, sessions, ideas, categories, tags, comments, votes, follows, bookmarks, subscriptions, and more.
 
-Token Incentives
+## Built With / Technology Stack
 
-Reward users for high-quality contributions and engagement
+**Backend**
+- [Next.js](https://nextjs.org/) (App Router for API Endpoints)
+- [NestJS](https://nestjs.com/) (Application scaffolding)
+- [TypeScript](https://www.typescriptlang.org/)
 
-Track balances and contribution scores
+**Database & ORM**
+- [PostgreSQL](https://www.postgresql.org/)
+- [Prisma](https://www.prisma.io/)
 
-Integration with Stellar-based tokens
+**Authentication & Security**
+- Passport
+- bcrypt (Password hashing)
+- zod (Data validation)
 
-Premium Content Access
+**Testing**
+- Jest
+- Supertest
 
-Subscription or token-gated premium ideas
+## Architecture
 
-Exclusive content from experienced analysts
+The project contains a dual-framework setup:
+1. **Next.js API Routes:** Located in `src/api/`, utilizing the App Router `route.ts` convention for handling HTTP requests.
+2. **NestJS Scaffold:** Located at the root of `src/` (`main.ts`, `app.module.ts`), providing alternative server initialization.
 
-Market Data Integration
+Shared utilities such as database clients, rate limiting, and validators are located in `src/lib/`.
 
-Real-time price feeds and chart-ready data
+## Project Structure
 
-Optimized endpoints for frontend visualizations
+```text
+.
+├── src/
+│   ├── api/          # Next.js API routes (auth, ideas, users)
+│   ├── lib/          # Shared utilities (db, auth, rate-limit, requests)
+│   ├── prisma/       # Prisma schema (schema.prisma)
+│   ├── main.ts       # NestJS application entry point
+│   ├── app.module.ts # NestJS root module
+│   └── app.controller.ts # NestJS base controller
+├── test/             # e2e test configuration and suites
+├── next.config.mjs   # Next.js configuration
+├── nest-cli.json     # NestJS CLI configuration
+└── package.json      # Dependencies and scripts
+```
 
-Governance Support (Future)
+## Prerequisites
 
-Community voting using platform tokens
+- Node.js
+- PostgreSQL database
+- npm
 
-Proposal and decision tracking
+## Installation
 
-🏗 Tech Stack
+1. Clone the repository and navigate into the project:
+   ```sh
+   git clone https://github.com/SignalScore/signal-score-api.git
+   cd signal-score-api
+   ```
 
-Backend Framework: NestJS
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-Language: TypeScript
+## Environment Variables
 
-Database: PostgreSQL (via TypeORM)
+Copy `.env.example` to `.env` and configure the required variables. Some of the primary variables include:
 
-Blockchain: Stellar Network
+- `DATABASE_URL`: Connection string for PostgreSQL.
+- `JWT_SECRET`: Secret key for JWT signing.
+- `STRIPE_SECRET_KEY` / `STRIPE_PUBLISHABLE_KEY`: Keys for Stripe integrations.
+- `COINGECKO_API_KEY` / `COINMARKETCAP_API_KEY`: External market data APIs.
+- `SMTP_*`: Email server configuration.
+- `AWS_*`: S3 File upload configuration.
+- `REDIS_URL`: Redis caching URL.
 
-Smart Contracts: Soroban
+*Note: Never expose `.env` in public repositories.*
 
-Authentication: JWT
+## Running the Project
 
-API Style: REST
+Because the project contains both NestJS and Next.js structures, you can run the application depending on your targeted framework:
 
-Environment Management: dotenv
+**For NestJS:**
+```sh
+# development
+npm run start
 
-📂 Project Structure
-src/
-├── auth/            # Authentication & authorization
-├── users/           # User management
-├── ideas/           # Crypto idea posts & interactions
-├── rewards/         # Token rewards & contribution logic
-├── premium/         # Premium content & access control
-├── market/          # Market data integration
-├── common/          # Shared utilities, guards, decorators
-├── app.module.ts
-├── main.ts
-
-⚙️ Setup & Installation
-1. Clone the Repository
-git clone https://github.com/Exquisify/signal-score-api.git
-cd signal-score-api
-
-2. Install Dependencies
-npm install
-
-3. Configure Environment Variables
-
-Create a .env file:
-
-PORT=3000
-DATABASE_URL=postgresql://user:password@localhost:5432/signal_score_api
-JWT_SECRET=your_jwt_secret
-STELLAR_NETWORK=testnet
-SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
-
-4. Run the Server
+# watch mode
 npm run start:dev
 
+# production mode
+npm run build
+npm run start:prod
+```
 
-The API will be available at:
+**For Next.js API Routes:**
+```sh
+npx next dev
+```
 
-http://localhost:3000
+## Testing
 
-🔐 Security Considerations
+The project uses Jest for unit and end-to-end testing.
 
-All sensitive credentials are managed via environment variables
+```sh
+# unit tests
+npm run test
 
-JWT-based authentication for protected routes
+# e2e tests
+npm run test:e2e
 
-Input validation using DTOs and class validators
+# test coverage
+npm run test:cov
+```
 
-Role guards for premium and admin-only features
+## API
 
-🧭 Roadmap
+The following API routes are implemented under the Next.js API structure (`src/api/`):
 
-Advanced governance modules
+### Auth
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User authentication
+- `POST /api/auth/logout` - Terminate session
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password
 
-Reputation-based reward weighting
+### Users
+- `/api/users/[id]` - User profile operations
 
-On-chain content verification
+### Ideas
+- `/api/ideas` - Core idea management
+- `/api/ideas/[id]/vote` - Vote on an idea
+- `/api/ideas/[id]/comments` - Comment on an idea
 
-Decentralized moderation mechanisms
+## Database / Data Storage
 
-Mobile-friendly API optimizations
+The project uses Prisma to interact with a PostgreSQL database. The schema (`src/prisma/schema.prisma`) includes the following core models:
 
-🤝 Contributing
+- **User**: Core user profiles, authentication state, and relations to interactions.
+- **Idea**: User-generated market ideas and posts.
+- **Comment** & **Vote**: User interactions with ideas.
+- **Category** & **Tag**: Content categorization.
+- **Subscription**: Premium access management.
+- **MarketData**: Cryptocurrency price feeds and metadata.
 
-Contributions are welcome!
-Please open a pull request and ensure your changes follow the project’s coding standards and repository rules.
+## Security
 
-📄 License
-
-This project is licensed under the MIT License.
+- Passwords are cryptographically hashed using `bcrypt` before storage.
+- Request validation is implemented via `zod` to ensure strict schema enforcement.
+- Rate limiting middleware exists in `src/lib/rate-limit.ts` to prevent abuse.
+- Next.js Middleware (`src/api/middleware/security.ts` and `src/api/middleware.ts`) is present for request interception and security headers.
