@@ -1,6 +1,6 @@
 join our community to build with us
 https://t.me/+sq2jJQgysWAxMjY0
-Hello-world is designed to help crypto traders, investors, and analysts share high-quality market ideas in a transparent and community-driven environment.
+Signal-score-api is designed to help crypto traders, investors, and analysts share high-quality market ideas in a transparent and community-driven environment.
 The backend handles authentication, content management, rewards logic, premium access, and Stellar blockchain interactions.
 
 ✨ Key Features
@@ -77,8 +77,8 @@ src/
 
 ⚙️ Setup & Installation
 1. Clone the Repository
-git clone https://github.com/Exquisify/Hello-world.git
-cd Hello-world
+git clone https://github.com/Exquisify/signal-score-api.git
+cd signal-score-api
 
 2. Install Dependencies
 npm install
@@ -88,7 +88,7 @@ npm install
 Create a .env file:
 
 PORT=3000
-DATABASE_URL=postgresql://user:password@localhost:5432/helloworld
+DATABASE_URL=postgresql://user:password@localhost:5432/signal_score_api
 JWT_SECRET=your_jwt_secret
 STELLAR_NETWORK=testnet
 SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
